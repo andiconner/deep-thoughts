@@ -15,12 +15,6 @@ const httpLink = createHttpLink({
   uri: '/graphql',// Uniform Resource Identifier
 });
 
-const client = new ApolloClient({
-  link: authLink.concat(httpLink),
-  cache: new InMemoryCache(),
-});
-//With the configuration of authLink, we use the setContext() function to retrieve the token from localStorage and set the HTTP request headers of every request to include the token
-
 const authLink = setContext((_, { headers }) => {
   const token = localStorage.getItem('id_token');
   return {
@@ -30,6 +24,13 @@ const authLink = setContext((_, { headers }) => {
     },
   };
 });
+
+const client = new ApolloClient({
+  link: authLink.concat(httpLink),
+  cache: new InMemoryCache(),
+});
+//With the configuration of authLink, we use the setContext() function to retrieve the token from localStorage and set the HTTP request headers of every request to include the token
+
 
 function App() {
   return (
